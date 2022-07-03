@@ -1,27 +1,28 @@
-import tkinter as tk
+import pyglet, tkinter as tk
 from tkinter import *
 from check import check
 from solve import solve
-import os
+pyglet.font.add_file("fonts/Prime.ttf")
+pyglet.font.add_file("fonts/Aloevera.ttf")
 
 window = tk.Tk()
 window.title("Sudoku")
-window.geometry("750x825")
-window.config(background = "#005f60")
+window.geometry("750x850")
+window.config(background = "#0C1014")
 window.resizable(width = False, height = False)
 
-frame = tk.Frame(window, bg = "#009AAF")
+frame = tk.Frame(window, bg = "#0C1014")
 frame.place(relwidth = 0.96, relheight = 0.96, relx = 0.02, rely = 0.02)
 
-label = tk.Label(frame, text = " Sudoku ", bg = "#009AAF", fg = "#FF9D36", font = "helvetica -36 bold underline").grid(row = 1, column = 1, columnspan = 10, padx = 100)
+label = tk.Label(frame, text = "sudoku", bg = "#0C1014", fg = "#FEE715", font = "Prime -56 bold").grid(row = 1, column = 1, columnspan = 10, padx = 100)
 
-label = tk.Label(frame, text = "Solve the Sudoku board or have the CPU do it for you!", bg = "#009AAF", fg = "#FFB240", font = "helvetica 11 bold italic").grid(row = 2, column = 1, columnspan = 10, padx = 100)
+label = tk.Label(frame, text = "Solve the Sudoku board or have the CPU do it for you!", bg = "#0C1014", fg = "#FEE715", font = "Prime 11 bold").grid(row = 2, column = 1, columnspan = 10, padx = 100)
 
 #Label if sudoku board is not solvable
-errorLabel = tk.Label(frame, text = "", bg = "#009AAF", fg = "red", font = "helvetica 12 bold")
+errorLabel = tk.Label(frame, text = "", bg = "#0C1014", fg = "red", font = "Prime 14 bold")
 
 #Label if sudoku board is solved
-successLabel = tk.Label(frame, text = "", bg = "#009AAF", fg = "#24F224", font = "helvetica 12 bold")
+successLabel = tk.Label(frame, text = "", bg = "#0C1014", fg = "#24F224", font = "Prime 14 bold")
 
 cells = {}
 
@@ -31,27 +32,29 @@ def isInt (n):
 def grid3x3(row, col, bg, fg):
     for i in range(3):
         for j in range(3):
-            entry = tk.Entry(frame, width = 8, bg = bg, fg = fg, font = "helvetica -16 bold", justify = "center", validate = "key", validatecommand = (window.register(isInt), "%P"))
+            entry = tk.Entry(frame, width = 8, bg = bg, fg = fg, font = "Aloevera -16", justify = "center", validate = "key", validatecommand = (window.register(isInt), "%P"))
             entry.grid(row = row+i+3, column = col+j+1, padx = 2, pady = 2, ipady = 20)
             cells[(row+i, col+j)] = entry
 
 def grid9x9():
-    bg = "#faab36"
-    fg = "#008083"
+    bg = "#FEE77D"
+    fg = "#0C1014"
     for i in range(0, 9, 3):
         for j in range(0, 9, 3):
             grid3x3(i, j, bg, fg)
-            if bg == "#faab36":
-                bg = "#f78104"
-                fg = "#249ea0"
+            if bg == "#FEE77D":
+                bg = "#FEE715"
+                fg = "#101820"
             else:
-                bg = "#faab36"
-                fg = "#008083"
+                bg = "#FEE77D"
+                fg = "#0C1014"
 
 def fetchVals(chOrSol):
-    errorLabel.config(text = "")
-    successLabel.config(text = "")
+    errorLabel.grid_remove()
+    successLabel.grid_remove()
+
     board = []
+
     for i in range(9):
         row = []
         for j in range(9):
@@ -106,21 +109,25 @@ def solveVals(grid):
         successLabel.grid(row = 15, column = 1, columnspan = 10, padx = 100)
     
 def resetVals():
-    errorLabel.config(text = "")
-    successLabel.config(text = "")
+    errorLabel.grid_remove()
+    successLabel.grid_remove()
+    
     for i in range(9):
         for j in range(9):
             cell = cells[(i, j)]
             cell.delete(0, 'end')
 
-button = tk.Button(frame, command = lambda: fetchVals("checks"), text = "Check", width = 10, height = 2, bg = "#faab36", fg = "#008083", font = "helvetica -14 italic bold")
+button = tk.Button(frame, command = lambda: fetchVals("checks"), text = "CHECK", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
 button.grid(row = 20, column = 1, columnspan = 5, pady = 16)
 
-button = tk.Button(frame, command = lambda: fetchVals("solves"), text = "Solve", width = 10, height = 2, bg = "#f78104", fg = "#249ea0", font = "helvetica -14 italic bold")
+button = tk.Button(frame, command = lambda: fetchVals("solves"), text = "SOLVE", width = 10, height = 2, bg = "#FEE715", fg = "#101820", font = "Prime -14 bold")
 button.grid(row = 20, column = 3, columnspan = 5, pady = 16)
 
-button = tk.Button(frame, command = resetVals, text = "Clear", width = 10, height = 2, bg = "#faab36", fg = "#008083", font = "helvetica -14 italic bold")
-button.grid(row = 20, column = 5, columnspan = 5, pady = 16)    
+button = tk.Button(frame, command = resetVals, text = "CLEAR", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
+button.grid(row = 20, column = 5, columnspan = 5, pady = 16)
+
+"""button = tk.Button(frame, command = resetVals, text = "RANDOM", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
+button.grid(row = 20, column = 5, columnspan = 5, pady = 16)"""
 
 grid9x9()
 

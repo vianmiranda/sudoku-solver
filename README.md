@@ -1,4 +1,4 @@
-#Sudoku Solver
+# Sudoku Solver
 
 GUI Sudoku utilizing the tkinter library. 
 - Solves any sudoku puzzle input, as long as it is solvable.
