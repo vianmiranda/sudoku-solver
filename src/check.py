@@ -11,7 +11,7 @@ def check(sudoku, row, col, num):
 
     #check 3x3s
     gridRow = (row // 3) * 3 #gives multiples of 3 only from 0-6
-    gridCol = (col // 3) * 3 #this finds current 3x3 grid
+    gridCol = (col // 3) * 3 #and finds current 3x3 grid
     for i in range (gridRow, gridRow + 3): 
         for j in range (gridCol, gridCol + 3):
             if sudoku[i][j] == num and (i != row and j != col):
