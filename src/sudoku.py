@@ -1,7 +1,9 @@
 import pyglet, tkinter as tk
+from tkinter import ttk
 from tkinter import *
 from check import check
 from solve import solve
+from boards import randomBoard
 pyglet.font.add_file("fonts/Prime.ttf")
 pyglet.font.add_file("fonts/Aloevera.ttf")
 
@@ -65,6 +67,8 @@ def fetchVals(chOrSol): #makes 2-d array from values assigned within the diction
             else:
                 row.append(int(val))
         board.append(row)
+        """print(str(board[i]) + ",") #board printer
+    print("\n\n")"""
 
     if chOrSol == "checks":
         checkVals(board)
@@ -80,7 +84,7 @@ def checkVals(grid): #checks all values on the board for correctness and complet
             sum += grid[i][j]
             if grid[i][j] == 0:
                 solution = complete = False
-            if check(grid, i, j, grid[i][j]) == False:
+            elif check(grid, i, j, grid[i][j]) == False:
                 solution = False
 
     if solution and sum == 405:
@@ -102,11 +106,21 @@ def solveVals(grid): #solves board based off of inputted puzzle
     else:
         for i in range(9):
             for j in range(9):
-                cells[(i, j)].delete(0, 'end')
+                cells[(i, j)].delete(0, "end")
                 cells[(i, j)].insert(0, s[i][j])
         
         successLabel.config(text = "Successfully solved!")
         successLabel.grid(row = 15, column = 1, columnspan = 10, padx = 100)
+
+def randBoard(): #prints random board onto window
+    resetVals()
+    board = randomBoard(menu.current())
+
+    for i in range(9):
+        for j in range(9):
+            cell = cells[(i, j)]
+            if board[i][j] != 0:
+                cell.insert(0, board[i][j])
     
 def resetVals(): #clears board
     errorLabel.grid_remove()
@@ -115,24 +129,36 @@ def resetVals(): #clears board
     for i in range(9):
         for j in range(9):
             cell = cells[(i, j)]
-            cell.delete(0, 'end')
+            cell.delete(0, "end")
 
 #buttons to execute commands
 button = tk.Button(frame, command = lambda: fetchVals("checks"), text = "CHECK", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
-button.grid(row = 20, column = 1, columnspan = 5, pady = 16)
+button.grid(row = 20, column = 1, columnspan = 3, pady = 16)
 
 button = tk.Button(frame, command = lambda: fetchVals("solves"), text = "SOLVE", width = 10, height = 2, bg = "#FEE715", fg = "#101820", font = "Prime -14 bold")
-button.grid(row = 20, column = 3, columnspan = 5, pady = 16)
+button.grid(row = 20, column = 3, columnspan = 3, pady = 16)
+
+button = tk.Button(frame, command = randBoard, text = "RANDOM", width = 10, height = 2, bg = "#FEE715", fg = "#101820", font = "Prime -14 bold")
+button.grid(row = 20, column = 5, columnspan = 3, pady = 16)
 
 button = tk.Button(frame, command = resetVals, text = "CLEAR", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
-button.grid(row = 20, column = 5, columnspan = 5, pady = 16)
+button.grid(row = 20, column = 7, columnspan = 3, pady = 16)
 
-"""button = tk.Button(frame, command = resetVals, text = "RANDOM", width = 10, height = 2, bg = "#FEE77D", fg = "#0C1014", font = "Prime -14 bold")
-button.grid(row = 20, column = 5, columnspan = 5, pady = 16)"""
+#difficulty dropdown menu
+label = tk.Label(frame, text = "Difficulty:", bg = "#0C1014", fg = "#FEE715", font = "Prime 11 bold").grid(row = 21, column = 7, columnspan = 3)
+
+modes = ["Easy", "Medium", "Hard", "Expert", "Master"]
+style = ttk.Style()
+style.theme_create("combostyle", parent = "alt", settings = {"TCombobox":
+                    {"configure": {"selectbackground": "#FEE715", "selectforeground": "#101820", "fieldbackground": "#FEE715", "background": "#FEE77D"}}})
+style.theme_use("combostyle")
+
+menu = ttk.Combobox(frame, values = modes, width = 10, state = "readonly")
+menu.grid(row = 21, column = 9, columnspan = 3, pady = 16)
+menu.set(modes[0]) #default is easy
 
 grid9x9()
 
 window.mainloop()
 
-#TODO random board (commented above)
 #TODO timer

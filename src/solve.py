@@ -6,7 +6,7 @@ def solveSudoku(sudoku, row, col):
     global count
     count += 1
 
-    if count > 1000000: #arbitrary number to keep track of recursion so app doesn't crash
+    if count > 1500000: #arbitrary number to keep track of recursion so app doesn't crash
         print("over 9000!")
         return False
     elif row == 8 and col == 9: #if row/col counter passes last box, can end recursion
