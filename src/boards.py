@@ -1,16 +1,17 @@
-#boards taken from Sudoku.com
+# boards taken from Sudoku.com
 import random
-from boards import *
 
-def randomBoard(mode): #combines boards into one list and chooses a random board from mode chosen
+# combines boards into one list and chooses a random board from mode chosen
+def randomBoard(mode): 
     boards = [easyBoards, mediumBoards, hardBoards, expertBoards, masterBoards]
     n = random.randrange(10)
 
     return boards[mode][n]
 
-##########
-##########
-##########
+################
+################
+################
+################
 
 easyBoards = [
 [[6, 0, 5, 4, 7, 0, 0, 1, 3], 

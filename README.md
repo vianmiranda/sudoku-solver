@@ -1,8 +1,10 @@
 # Sudoku Solver
 
 GUI Sudoku utilizing the tkinter library. 
-- Solves any sudoku puzzle input, as long as it is solvable.
+- Solves ***any*** sudoku puzzle input using backtracking, as long as it is solvable.
 - Checks solved sudoku board (automatically if program, button for user if user-solved)
+- **50 unique sudoku boards** for the user or program to solve
+  - 5 modes (easy, medium, hard, expert, master), each consisting of 10 boards
 
 <img src="example.gif" width = "619" height = "719">
 
