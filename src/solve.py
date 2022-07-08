@@ -1,13 +1,14 @@
 from check import check
 
 count = 0
+limit = 1500000 # arbitrary number to keep track of recursion so app doesn't crash
 
 # solves using backtracking (yay..)
 def solveSudoku(sudoku, row, col):
-    global count
+    global count, limit
     count += 1
 
-    if count > 1500000: # arbitrary number to keep track of recursion so app doesn't crash
+    if count > limit: 
         print("over 9000!")
         return False
     elif row == 8 and col == 9: # if row/col counter passes last box, can end recursion
